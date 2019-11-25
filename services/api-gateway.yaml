@@ -55,6 +55,36 @@ paths:
             application/json:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
+  /boxes:
+    get:
+      summary: List all boxes
+      operationId: listBoxes
+      tags:
+        - Boxes
+      parameters:
+        - $ref: "#/components/parameters/limit-property"
+        - $ref: "#/components/parameters/offset-property"
+        - $ref: "#/components/parameters/box-id-property"
+        # TODO sort key and sort direction
+        # TODO assumes that filtering happens on the front end
+      responses:
+        '200':
+          description: An array of boxes
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Box"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
 components:
   schemas:
