@@ -12,6 +12,95 @@ servers:
   - url: http://cc.swarm.example.com/v1
 
 paths:
+  /boxes/{boxId}:
+    get:
+      summary: Retrieve an individual box
+      operationId: getBoxById
+      tags:
+        - Boxes
+      parameters:
+        - $ref: "#/components/parameters/box-id-property"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Box"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    put:
+      summary: Update information related to a box
+      operationId: updateBox
+      tags:
+        - Boxes
+      parameters:
+        - $ref: "#/components/parameters/box-id-property"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Box"
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
 components:
   schemas:
+    Box:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          description: Friendly name of the box
+          example: 7th NE parking garage entrance
+        type:
+          type: string
+          description: The swarm perception box type
+          example: P100
+        version:
+          type: string
+          description: The version running on the box
+          example: 1.0
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tag"
+        configurationId:
+          type: string
+          format: uuid
+          description: The uuid for the configuration item
+        statusId:
+          type: string
+          format: uuid
+          description: The uuid for the status item
+    Tag:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Roxxon Energy Corporation
+
+  parameters:
+    box-id-property:
+      description: A guid representing the unique box id
+      name: boxId
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: uuid
