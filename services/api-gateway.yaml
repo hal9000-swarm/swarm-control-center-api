@@ -104,3 +104,19 @@ components:
       schema:
         type: string
         pattern: uuid
+
+    # pagination
+    offset-property:
+      description: An offset to start with the paginated response.
+      name: offset
+      in: query
+      schema:
+        type: integer
+        example: 40
+    limit-property:
+      description: How many items to show. Used for pagination.
+      name: limit
+      in: query
+      schema:
+        type: integer
+        example: 40
