@@ -1,0 +1,17 @@
+openapi: '3.0.1'
+info:
+  title: Swarm commons API components
+  version: '0.0.0'
+paths:
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
