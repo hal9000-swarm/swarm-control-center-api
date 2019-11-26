@@ -68,6 +68,7 @@ paths:
         # TODO sort key and sort direction
         # TODO assumes that filtering happens on the front end
       responses:
+        # TODO include responses from the 2xx,3xx,4xx, and 5xx range (separate PR)
         '200':
           description: An array of boxes
           headers:
