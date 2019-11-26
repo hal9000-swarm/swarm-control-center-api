@@ -50,8 +50,12 @@ paths:
             schema:
               $ref: "#/components/schemas/Box"
       responses:
-        '201':
-          description: Null response
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Box"
         default:
           description: unexpected error
           content:
