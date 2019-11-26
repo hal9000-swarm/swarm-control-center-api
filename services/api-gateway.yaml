@@ -18,6 +18,9 @@ paths:
   /boxes/{boxId}:
     get:
       summary: Retrieve an individual box
+      security:
+        - openId:
+          - box:read
       operationId: getBoxById
       tags:
         - Boxes
@@ -38,6 +41,9 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
     put:
       summary: Update information related to a box
+      security:
+        - openId:
+          - box:write
       operationId: updateBox
       tags:
         - Boxes
@@ -65,6 +71,9 @@ paths:
   /boxes:
     get:
       summary: List all boxes
+      security:
+        - openId:
+          - box:read
       operationId: listBoxes
       tags:
         - Boxes
@@ -157,3 +166,8 @@ components:
       schema:
         type: integer
         example: 40
+
+  securitySchemes:
+    # TODO OpenID Connect is currently not supported in swagger UI https://github.com/swagger-api/swagger-ui/issues/3517
+    openId:
+      $ref: "../schemas/commons.yaml#/securitySchemes/openId"

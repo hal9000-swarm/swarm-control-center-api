@@ -15,3 +15,7 @@ components:
           type: integer
         message:
           type: string
+securitySchemes:
+    openId:
+      type: openIdConnect
+      openIdConnectUrl: https://login.microsoftonline.com/88742370-2a68-4426-9feb-074c0c2adb97/v2.0/.well-known/openid-configuration
