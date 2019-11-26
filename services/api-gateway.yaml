@@ -21,6 +21,8 @@ paths:
       security:
         - openId:
           - box:read
+        - oauth2:
+          - box:read
       operationId: getBoxById
       tags:
         - Boxes
@@ -43,6 +45,8 @@ paths:
       summary: Update information related to a box
       security:
         - openId:
+          - box:write
+        - oauth2:
           - box:write
       operationId: updateBox
       tags:
@@ -73,6 +77,8 @@ paths:
       summary: List all boxes
       security:
         - openId:
+          - box:read
+        - oauth2:
           - box:read
       operationId: listBoxes
       tags:
@@ -171,3 +177,5 @@ components:
     # TODO OpenID Connect is currently not supported in swagger UI https://github.com/swagger-api/swagger-ui/issues/3517
     openId:
       $ref: "../schemas/commons.yaml#/securitySchemes/openId"
+    oauth2:
+      $ref: "../schemas/commons.yaml#/securitySchemes/oauth2"

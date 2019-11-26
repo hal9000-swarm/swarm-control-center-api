@@ -19,3 +19,13 @@ securitySchemes:
     openId:
       type: openIdConnect
       openIdConnectUrl: https://login.microsoftonline.com/88742370-2a68-4426-9feb-074c0c2adb97/v2.0/.well-known/openid-configuration
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.microsoftonline.com/88742370-2a68-4426-9feb-074c0c2adb97/oauth2/v2.0/authorize
+          tokenUrl: https://login.microsoftonline.com/88742370-2a68-4426-9feb-074c0c2adb97/oauth2/v2.0/token
+          scopes:
+            box:read: read boxes
+            box:write: write boxes
+            box:create: create boxes
