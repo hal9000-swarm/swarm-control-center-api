@@ -10,6 +10,9 @@ info:
     url: https://swarm-analytics.com
 servers:
   - url: http://cc.swarm.example.com/v1
+tags:
+  - name: Boxes
+    description: 'Box related APIs'
 
 paths:
   /boxes/{boxId}:
@@ -47,8 +50,12 @@ paths:
             schema:
               $ref: "#/components/schemas/Box"
       responses:
-        '201':
-          description: Null response
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Box"
         default:
           description: unexpected error
           content:
@@ -130,7 +137,7 @@ components:
     box-id-property:
       description: A guid representing the unique box id
       name: boxId
-      in: header
+      in: path
       required: true
       schema:
         type: string
