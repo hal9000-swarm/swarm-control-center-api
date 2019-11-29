@@ -13,14 +13,14 @@ servers:
 tags:
   - name: Boxes
     description: 'Box related APIs'
+# require oauth2 for all API calls
+security:
+  - oauth2: []    
 
 paths:
   /boxes/{boxId}:
     get:
       summary: Retrieve an individual box
-      security:
-        - oauth2:
-          - box:read
       operationId: getBoxById
       tags:
         - Boxes
@@ -41,9 +41,6 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
     put:
       summary: Update information related to a box
-      security:
-        - oauth2:
-          - box:write
       operationId: updateBox
       tags:
         - Boxes
@@ -71,9 +68,6 @@ paths:
   /boxes:
     get:
       summary: List all boxes
-      security:
-        - oauth2:
-          - box:read
       operationId: listBoxes
       tags:
         - Boxes
