@@ -8,6 +8,27 @@ info:
     name: Michael Rogger
     email: michael.rogger@swarm-analytics.com
     url: https://swarm-analytics.com
+  description: |
+    ## Security
+    The application makes use of oAuth2 for authenticating a user.
+    Users will be assigne to roles using the [Azure AD - Enterprise Applications](https://portal.azure.com/#blade/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/AllApps/menuId/).
+
+    A role will be assigned various permissions.
+    Note that permissions will not be manifested in AD.
+    These permissions are to be defined in both the forntend and the backend application.
+
+    The following table gives an overview on the configured roles and their mapped permissions.
+
+
+    | Role | Permission |
+    |-----|-----|
+    | Superadmin   | `operators:read`, `operators:write`  |
+    | Operator   | `boxes:read`, `boxes:write`, `configurations:read`, `configurations:write` |
+
+
+    For each API call the frontend application provides a `JWS` that contains the assigned roles.
+    The API can trust the signature or query AD for retrieving the assosciated roles to a user for determining if the user can invoke the operation.
+
 servers:
   - url: http://cc.swarm.example.com/v1
 tags:
