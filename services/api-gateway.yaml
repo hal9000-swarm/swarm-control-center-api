@@ -8,11 +8,35 @@ info:
     name: Michael Rogger
     email: michael.rogger@swarm-analytics.com
     url: https://swarm-analytics.com
+  description: |
+    ## Security
+    The application makes use of oAuth2 for authenticating a user.
+    Users will be assigne to roles using the [Azure AD - Enterprise Applications](https://portal.azure.com/#blade/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/AllApps/menuId/).
+
+    A role will be assigned various permissions.
+    Note that permissions will not be manifested in AD.
+    These permissions are to be defined in both the forntend and the backend application.
+
+    The following table gives an overview on the configured roles and their mapped permissions.
+
+
+    | Role | Permission |
+    |-----|-----|
+    | Superadmin   | `operators:read`, `operators:write`  |
+    | Operator   | `boxes:read`, `boxes:write`, `configurations:read`, `configurations:write` |
+
+
+    For each API call the frontend application provides a `JWS` that contains the assigned roles.
+    The API can trust the signature or query AD for retrieving the assosciated roles to a user for determining if the user can invoke the operation.
+
 servers:
   - url: http://cc.swarm.example.com/v1
 tags:
   - name: Boxes
     description: 'Box related APIs'
+# require oauth2 for all API calls
+security:
+  - oauth2: []    
 
 paths:
   /boxes/{boxId}:
@@ -54,6 +78,36 @@ paths:
           description: Expected response to a valid request
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/Box"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+  /boxes:
+    get:
+      summary: List all boxes
+      operationId: listBoxes
+      tags:
+        - Boxes
+      parameters:
+        - $ref: "#/components/parameters/limit-property"
+        - $ref: "#/components/parameters/offset-property"
+        # TODO sort key and sort direction
+        # TODO filtering
+      responses:
+        # TODO include responses from the 2xx,3xx,4xx, and 5xx range (separate PR)
+        '200':
+          description: An array of boxes
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:    
               schema:
                 $ref: "#/components/schemas/Box"
         default:
@@ -111,3 +165,23 @@ components:
       schema:
         type: string
         pattern: uuid
+
+    # pagination
+    offset-property:
+      description: An offset to start with the paginated response.
+      name: offset
+      in: query
+      schema:
+        type: integer
+        example: 40
+    limit-property:
+      description: How many items to show. Used for pagination.
+      name: limit
+      in: query
+      schema:
+        type: integer
+        example: 40
+
+  securitySchemes:
+    oauth2:
+      $ref: "../schemas/commons.yaml#/securitySchemes/oauth2"

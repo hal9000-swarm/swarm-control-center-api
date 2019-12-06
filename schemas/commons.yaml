@@ -15,3 +15,11 @@ components:
           type: integer
         message:
           type: string
+securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize
+          # we will work with roles instead
+          scopes: {}
