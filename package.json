@@ -1,0 +1,16 @@
+{
+  "name": "swarm-control-center-api",
+  "version": "1.0.0",
+  "description": "Swarm Control Center API",
+  "private": true,
+  "scripts": {
+    "lint": "speccy lint services/api-gateway.yaml"
+  },
+  "devDependencies": {
+    "speccy": "^0.11.0"
+  },
+  "engines": {
+    "node": ">= 8.0.0",
+    "npm": ">= 6.0.0"
+  }
+}
