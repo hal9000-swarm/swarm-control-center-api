@@ -249,6 +249,11 @@ components:
           type: string
           description: Friendly name of the box
           example: 7th NE parking garage entrance
+        operationMode:
+          type: string
+          enum:
+            - UrbanTraffic
+            - ParkingFisheye
         type:
           type: string
           description: The swarm perception box type
