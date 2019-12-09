@@ -117,6 +117,65 @@ paths:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
+  /configurations/{configurationId}:
+    get:
+      summary: Retrieve an individual configuration
+      operationId: getConfigurationById
+      tags:
+        - Configurations
+      parameters:
+        - $ref: "#/components/parameters/configuration-id-property"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/MqttConfiguration'
+                  - $ref: '#/components/schemas/CameraConfiguration'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    put:
+      summary: Update information related to a configuration
+      operationId: updateConfiguration
+      tags:
+        - Configurations
+      parameters:
+        - $ref: "#/components/parameters/configuration-id-property"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/MqttConfiguration'
+                - $ref: '#/components/schemas/CameraConfiguration'
+              discriminator:
+                propertyName: objectType
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/MqttConfiguration'
+                  - $ref: '#/components/schemas/CameraConfiguration'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
 components:
   schemas:
     Box:
@@ -141,7 +200,11 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Tag"
-        configurationId:
+        mqttConfigurationId:
+          type: string
+          format: uuid
+          description: The uuid for the configuration item
+        cameraConfigurationId:
           type: string
           format: uuid
           description: The uuid for the configuration item
@@ -156,10 +219,71 @@ components:
           type: string
           example: Roxxon Energy Corporation
 
+    ConnectionConfiguration:
+      type: object
+      properties:
+        objectType:
+          type: string
+        status:
+          type: string
+          enum:
+            - desired
+            - deployed
+          example: deployed
+        username:
+          type: string
+          example: user
+        password:
+          type: string
+          example: password
+        protocol:
+          type: string
+          enum:
+            - http
+            - rtsp
+          example: http
+        host:
+          type: string
+          example: 192.168.0.100
+        port:
+          type: integer
+          example: 554
+        path:
+          type: string
+          example: live.sdp
+
+    MqttConfiguration:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ConnectionConfiguration'
+      properties:
+        topic:
+          type: string
+
+    CameraConfiguration:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ConnectionConfiguration'
+      properties:
+        vendor:
+          type: string
+        eventTriggers:
+          type: array
+          items:
+            type: string
+            pattern: uuid
   parameters:
     box-id-property:
       description: A guid representing the unique box id
       name: boxId
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: uuid
+    configuration-id-property:
+      description: A guid representing the unique configuration id
+      name: configurationId
       in: path
       required: true
       schema:
