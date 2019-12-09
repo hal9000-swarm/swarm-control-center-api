@@ -176,6 +176,67 @@ paths:
             application/json:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
+
+  /eventTrigger/{eventTriggerId}:
+    get:
+      summary: Retrieve an individual event trigger
+      operationId: getEventTriggerById
+      tags:
+        - EventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CrossingLine'
+                  - $ref: '#/components/schemas/RegionOfInterest'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    put:
+      summary: Update information related to an event trigger
+      operationId: updateEventTrigger
+      tags:
+        - EventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CrossingLine'
+                - $ref: '#/components/schemas/RegionOfInterest'
+              discriminator:
+                propertyName: objectType
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CrossingLine'
+                  - $ref: '#/components/schemas/RegionOfInterest'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+
 components:
   schemas:
     Box:
@@ -272,6 +333,64 @@ components:
           items:
             type: string
             pattern: uuid
+
+    CrossingLine:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: 8th SE crosswalk
+        objectType:
+          type: string
+          example: crossingLine
+        coordinates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Point'
+          minItems: 2
+          maxItems: 2
+
+    RegionOfInterest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Bike parking spots
+        objectType:
+          type: string
+          example: regionOfInterest
+        triggerAction:
+          type: string
+          enum:
+            - timeBased
+            - eventBased
+          example: timeBased
+        schedule:
+          type: string
+        # Does a Cron type expression makes sense here?
+        coordinates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Point'
+          minItems: 4
+          maxItems: 4
+
+    Point:
+      type: object
+      properties:
+        pointX:
+          type: string
+          example: 27
+        pointY:
+          type: string
+          example: 33
+
   parameters:
     box-id-property:
       description: A guid representing the unique box id
@@ -284,6 +403,14 @@ components:
     configuration-id-property:
       description: A guid representing the unique configuration id
       name: configurationId
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: uuid
+    event-trigger-id-property:
+      description: A guid representing the unique event trigger id
+      name: eventTriggerId
       in: path
       required: true
       schema:
