@@ -228,7 +228,41 @@ paths:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
-  /eventTrigger/{eventTriggerId}:
+# APIs related to event triggers
+  /eventTriggers:
+    post:
+      summary: Create an event trigger
+      operationId: createEventTrigger
+      tags:
+        - EventTriggers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CrossingLine'
+                - $ref: '#/components/schemas/RegionOfInterest'
+              discriminator:
+                propertyName: objectType
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CrossingLine'
+                  - $ref: '#/components/schemas/RegionOfInterest'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+  /eventTriggers/{eventTriggerId}:
     get:
       summary: Retrieve an individual event trigger
       operationId: getEventTriggerById
