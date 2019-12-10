@@ -109,7 +109,9 @@ paths:
           content:
             application/json:    
               schema:
-                $ref: "#/components/schemas/Box"
+                type: array
+                items:
+                  $ref: "#/components/schemas/Box"
         default:
           description: unexpected error
           content:
