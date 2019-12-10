@@ -321,6 +321,22 @@ paths:
             application/json:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    delete:
+      summary: Delete an event trigger
+      operationId: deleteEventTrigger
+      tags:
+        - EventTriggers
+      parameters:
+        - $ref: "#/components/parameters/configuration-id-property"
+      responses:
+        '204':
+          description: Expected response to a valid request
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
 components:
   schemas:
