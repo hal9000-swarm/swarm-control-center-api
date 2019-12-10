@@ -121,7 +121,7 @@ paths:
   /configurations:
     post:
       summary: Create a configuration
-      operationId: updateConfiguration
+      operationId: createConfiguration
       tags:
         - Configurations
       requestBody:
@@ -327,7 +327,7 @@ paths:
       tags:
         - EventTriggers
       parameters:
-        - $ref: "#/components/parameters/configuration-id-property"
+        - $ref: "#/components/parameters/event-trigger-id-property"
       responses:
         '204':
           description: Expected response to a valid request
