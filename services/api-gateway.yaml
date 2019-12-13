@@ -403,12 +403,6 @@ components:
         password:
           type: string
           example: password
-        protocol:
-          type: string
-          enum:
-            - http
-            - rtsp
-          example: http
         host:
           type: string
           example: 192.168.0.100
