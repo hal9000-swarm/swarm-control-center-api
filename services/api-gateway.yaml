@@ -426,8 +426,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/ConnectionConfiguration'
       properties:
-        vendor:
-          type: string
         eventTriggers:
           type: array
           items:
