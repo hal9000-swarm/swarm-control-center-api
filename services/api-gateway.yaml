@@ -350,7 +350,7 @@ components:
           type: string
           description: Friendly name of the box
           example: 7th NE parking garage entrance
-        operationMode:
+        model:
           type: string
           enum:
             - UrbanTraffic
