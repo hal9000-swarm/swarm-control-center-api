@@ -445,11 +445,12 @@ components:
           type: string
           example: crossingLine
         coordinates:
-          type: array
-          items:
-            $ref: '#/components/schemas/Point'
-          minItems: 2
-          maxItems: 2
+          type: object
+          properties:
+            pointA: 
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointB:
+              $ref: '#/components/schemas/Relative2dPoint'
 
     RegionOfInterest:
       type: object
@@ -474,21 +475,31 @@ components:
           description: triggered every n seconds
           example: 30
         coordinates:
-          type: array
-          items:
-            $ref: '#/components/schemas/Point'
-          minItems: 4
-          maxItems: 4
+          type: object
+          properties:
+            pointA: 
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointB:
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointC: 
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointD:
+              $ref: '#/components/schemas/Relative2dPoint'
 
-    Point:
+    RelativePoint:
+      type: number
+      format: double
+      minimum: 0
+      maximum: 1
+      example: 0.234
+
+    Relative2dPoint:
       type: object
       properties:
-        pointX:
-          type: string
-          example: 27
-        pointY:
-          type: string
-          example: 33
+        x: 
+          $ref: '#/components/schemas/RelativePoint'
+        y:
+          $ref: '#/components/schemas/RelativePoint'    
 
   parameters:
     box-id-property:
