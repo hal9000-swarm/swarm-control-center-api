@@ -470,8 +470,9 @@ components:
             - eventBased
           example: timeBased
         schedule:
-          type: string
-        # Does a Cron type expression makes sense here?
+          type: integer
+          description: triggered every n seconds
+          example: 30
         coordinates:
           type: array
           items:
