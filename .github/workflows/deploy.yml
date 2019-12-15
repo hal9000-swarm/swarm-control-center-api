@@ -1,0 +1,26 @@
+name: Deploy mock API container
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: azure/docker-login@v1
+        with:
+          login-server: swarmccfrontend.azurecr.io
+          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Build Docker Image
+        run: |
+          docker build --file ./Dockerfile \
+            --tag swarmccfrontend.azurecr.io/swarmccfrontend-mockapi:${{GITHUB_REF##*/}} .
+      - name: Push to Registry
+        run: docker push swarmccfrontend.azurecr.io/swarmccfrontend-mockapi:${{GITHUB_REF##*/}}
