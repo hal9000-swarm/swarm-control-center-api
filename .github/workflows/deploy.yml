@@ -21,6 +21,6 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build --file ./Dockerfile \
-            --tag swarmccfrontend.azurecr.io/swarmccfrontend-mockapi:${{GITHUB_REF##*/}} .
+            --tag swarmccfrontend.azurecr.io/swarmccfrontend-mockapi:latest .
       - name: Push to Registry
-        run: docker push swarmccfrontend.azurecr.io/swarmccfrontend-mockapi:${{GITHUB_REF##*/}}
+        run: docker push swarmccfrontend.azurecr.io/swarmccfrontend-mockapi:latest

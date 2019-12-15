@@ -2,9 +2,14 @@
 
 The repository hosts the API specifications related to the Swarm Control Center API.
 
-Structure:
+## Structure:
 
   - services: holds Openapi specifications regarding the endpoints
   - schemas: contains Openapi specifications that are commonly used across the project
   - example: hosts example requests and responses as well as a Postman Collection
   - documentation: provides supporting material such as sequence, activity, or state diagrams
+
+## Mock Server
+
+[spotlight/prism](https://github.com/stoplightio/prism) is used to create an API mock server.
+A Docker container is created on each push to master and automatically deployed at https://swarm-control-center-mock-api.azurewebsites.net/.
