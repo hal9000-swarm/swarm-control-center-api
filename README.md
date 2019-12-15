@@ -13,3 +13,5 @@ The repository hosts the API specifications related to the Swarm Control Center 
 
 [spotlight/prism](https://github.com/stoplightio/prism) is used to create an API mock server.
 A Docker container is created on each push to master and automatically deployed at https://swarm-control-center-mock-api.azurewebsites.net/.
+
+The mock server uses the provided examples to generate random data. The examples can be specified with providing the `format` and/or `x-faker` property. Data types to use in conjunction with x-faker can be looked up here: [https://github.com/marak/Faker.js/]().
