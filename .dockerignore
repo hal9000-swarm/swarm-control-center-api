@@ -1,0 +1,7 @@
+.github
+coverage
+.dockerignore
+.gitignore
+Dockerfile
+package*.json
+README.md

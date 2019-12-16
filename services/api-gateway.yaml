@@ -36,7 +36,7 @@ tags:
     description: 'Box related APIs'
 # require oauth2 for all API calls
 security:
-  - oauth2: []    
+  - oauth2: []
 
 paths:
   /boxes/{boxId}:
@@ -107,7 +107,7 @@ paths:
               schema:
                 type: string
           content:
-            application/json:    
+            application/json:
               schema:
                 type: array
                 items:
@@ -348,9 +348,12 @@ components:
         id:
           type: string
           format: uuid
+          x-faker: random.uuid
+          example: 676cac42-f3d6-416d-ac83-3f54f1c0bb43
         name:
           type: string
           description: Friendly name of the box
+          x-faker: address.streetAddress
           example: 7th NE parking garage entrance
         model:
           type: string
@@ -364,6 +367,7 @@ components:
         version:
           type: string
           description: The version running on the box
+          x-faker: system.semver
           example: 1.0
         tags:
           type: array
@@ -376,16 +380,21 @@ components:
         cameraConfigurationId:
           type: string
           format: uuid
+          x-faker: random.uuid
+          example: b3455e0b-65d8-5be8-8da9-8993103493a8
           description: The uuid for the configuration item
         statusId:
           type: string
           format: uuid
+          x-faker: random.uuid
+          example: 2ab91de8-a30a-ee5d-2ae9-a2899488c90
           description: The uuid for the status item
     Tag:
       type: object
       properties:
         name:
           type: string
+          x-faker: company.companyName
           example: Roxxon Energy Corporation
 
     ConnectionConfiguration:
