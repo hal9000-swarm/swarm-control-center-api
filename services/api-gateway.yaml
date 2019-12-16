@@ -119,6 +119,227 @@ paths:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
+# APIs related to configuration objects
+  /configurations:
+    post:
+      summary: Create a configuration
+      operationId: createConfiguration
+      tags:
+        - Configurations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/MqttConfiguration'
+                - $ref: '#/components/schemas/CameraConfiguration'
+              discriminator:
+                propertyName: objectType
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/MqttConfiguration'
+                  - $ref: '#/components/schemas/CameraConfiguration'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"  
+
+  /configurations/{configurationId}:
+    get:
+      summary: Retrieve an individual configuration
+      operationId: getConfigurationById
+      tags:
+        - Configurations
+      parameters:
+        - $ref: "#/components/parameters/configuration-id-property"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/MqttConfiguration'
+                  - $ref: '#/components/schemas/CameraConfiguration'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    put:
+      summary: Update information related to a configuration
+      operationId: updateConfiguration
+      tags:
+        - Configurations
+      parameters:
+        - $ref: "#/components/parameters/configuration-id-property"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/MqttConfiguration'
+                - $ref: '#/components/schemas/CameraConfiguration'
+              discriminator:
+                propertyName: objectType
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/MqttConfiguration'
+                  - $ref: '#/components/schemas/CameraConfiguration'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    delete:
+      summary: Delete a configuration
+      operationId: deleteConfiguration
+      tags:
+        - Configurations
+      parameters:
+        - $ref: "#/components/parameters/configuration-id-property"
+      responses:
+        '204':
+          description: Expected response to a valid request
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+
+# APIs related to event triggers
+  /eventTriggers:
+    post:
+      summary: Create an event trigger
+      operationId: createEventTrigger
+      tags:
+        - EventTriggers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CrossingLine'
+                - $ref: '#/components/schemas/RegionOfInterest'
+              discriminator:
+                propertyName: objectType
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CrossingLine'
+                  - $ref: '#/components/schemas/RegionOfInterest'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+  /eventTriggers/{eventTriggerId}:
+    get:
+      summary: Retrieve an individual event trigger
+      operationId: getEventTriggerById
+      tags:
+        - EventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CrossingLine'
+                  - $ref: '#/components/schemas/RegionOfInterest'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    put:
+      summary: Update information related to an event trigger
+      operationId: updateEventTrigger
+      tags:
+        - EventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/CrossingLine'
+                - $ref: '#/components/schemas/RegionOfInterest'
+              discriminator:
+                propertyName: objectType
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/CrossingLine'
+                  - $ref: '#/components/schemas/RegionOfInterest'
+                discriminator:
+                  propertyName: objectType
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    delete:
+      summary: Delete an event trigger
+      operationId: deleteEventTrigger
+      tags:
+        - EventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+      responses:
+        '204':
+          description: Expected response to a valid request
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+
 components:
   schemas:
     Box:
@@ -131,6 +352,11 @@ components:
           type: string
           description: Friendly name of the box
           example: 7th NE parking garage entrance
+        model:
+          type: string
+          enum:
+            - UrbanTraffic
+            - ParkingFisheye
         type:
           type: string
           description: The swarm perception box type
@@ -143,7 +369,11 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Tag"
-        configurationId:
+        mqttConfigurationId:
+          type: string
+          format: uuid
+          description: The uuid for the configuration item
+        cameraConfigurationId:
           type: string
           format: uuid
           description: The uuid for the configuration item
@@ -158,10 +388,141 @@ components:
           type: string
           example: Roxxon Energy Corporation
 
+    ConnectionConfiguration:
+      type: object
+      properties:
+        objectType:
+          type: string
+        status:
+          type: string
+          enum:
+            - desired
+            - deployed
+          example: deployed
+        username:
+          type: string
+          example: user
+        password:
+          type: string
+          example: password
+        host:
+          type: string
+          example: 192.168.0.100
+        port:
+          type: integer
+          example: 554
+        path:
+          type: string
+          example: live.sdp
+
+    MqttConfiguration:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ConnectionConfiguration'
+      properties:
+        topic:
+          type: string
+
+    CameraConfiguration:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ConnectionConfiguration'
+      properties:
+        eventTriggers:
+          type: array
+          items:
+            type: string
+            pattern: uuid
+
+    CrossingLine:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: 8th SE crosswalk
+        objectType:
+          type: string
+          example: crossingLine
+        coordinates:
+          type: object
+          properties:
+            pointA: 
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointB:
+              $ref: '#/components/schemas/Relative2dPoint'
+
+    RegionOfInterest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Bike parking spots
+        objectType:
+          type: string
+          example: regionOfInterest
+        triggerAction:
+          type: string
+          enum:
+            - timeBased
+            - eventBased
+          example: timeBased
+        schedule:
+          type: integer
+          description: triggered every n seconds
+          example: 30
+        coordinates:
+          type: object
+          properties:
+            pointA: 
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointB:
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointC: 
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointD:
+              $ref: '#/components/schemas/Relative2dPoint'
+
+    RelativePoint:
+      type: number
+      format: double
+      minimum: 0
+      maximum: 1
+      example: 0.234
+
+    Relative2dPoint:
+      type: object
+      properties:
+        x: 
+          $ref: '#/components/schemas/RelativePoint'
+        y:
+          $ref: '#/components/schemas/RelativePoint'    
+
   parameters:
     box-id-property:
       description: A guid representing the unique box id
       name: boxId
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: uuid
+    configuration-id-property:
+      description: A guid representing the unique configuration id
+      name: configurationId
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: uuid
+    event-trigger-id-property:
+      description: A guid representing the unique event trigger id
+      name: eventTriggerId
       in: path
       required: true
       schema:
