@@ -468,11 +468,13 @@ components:
           format: uuid
           x-faker: random.uuid
           description: The uuid for the configuration item
+          nullable: true
         cameraConfigurationId:
           type: string
           format: uuid
           x-faker: random.uuid
           description: The uuid for the configuration item
+          nullable: true
         statusId:
           type: string
           format: uuid
