@@ -54,6 +54,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Box"
+              examples:
+                61b9ecee-2174-11ea-978f-2e728ce88125:
+                  summary: An example box
+                  value:
+                    id: 61b9ecee-2174-11ea-978f-2e728ce88125
+                    name: 7th NE parking garage entrance2
+                    model: UrbanTraffic
+                    type: P100
+                    version: 1.0.0
+                    mqttConfigurationId: 85335c0a-2174-11ea-978f-2e728ce88125
+                    cameraConfigurationId: 7372f264-2174-11ea-978f-2e728ce88125
+                    statusId: 203ef868-2174-11ea-978f-2e728ce88125
+                6f2801ae-2174-11ea-978f-2e728ce88125:
+                  summary: Another example box
+                  value:
+                    id: 6f2801ae-2174-11ea-978f-2e728ce88125
+                    name:
+                    model: ParkingFisheye
+                    type: P100
+                    version: 1.0.0
+                    mqttConfigurationId:
+                    cameraConfigurationId:
+                    statusId: 499fe654-2174-11ea-978f-2e728ce88125
         default:
           description: unexpected error
           content:
@@ -112,6 +135,23 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Box"
+                example:
+                  - id: 61b9ecee-2174-11ea-978f-2e728ce88125
+                    name: 7th NE parking garage entrance2
+                    model: UrbanTraffic
+                    type: P100
+                    version: 1.0.0
+                    mqttConfigurationId: 85335c0a-2174-11ea-978f-2e728ce88125
+                    cameraConfigurationId: 7372f264-2174-11ea-978f-2e728ce88125
+                    statusId: 203ef868-2174-11ea-978f-2e728ce88125
+                  - id: 6f2801ae-2174-11ea-978f-2e728ce88125
+                    name:
+                    model: ParkingFisheye
+                    type: P100
+                    version: 1.0.0
+                    mqttConfigurationId:
+                    cameraConfigurationId:
+                    statusId: 499fe654-2174-11ea-978f-2e728ce88125
         default:
           description: unexpected error
           content:
@@ -131,7 +171,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
+              anyOf:
                 - $ref: '#/components/schemas/MqttConfiguration'
                 - $ref: '#/components/schemas/CameraConfiguration'
               discriminator:
@@ -142,7 +182,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
+                anyOf:
                   - $ref: '#/components/schemas/MqttConfiguration'
                   - $ref: '#/components/schemas/CameraConfiguration'
                 discriminator:
@@ -152,7 +192,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../schemas/commons.yaml#/components/schemas/Error"  
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
   /configurations/{configurationId}:
     get:
@@ -168,11 +208,36 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
+                anyOf:
                   - $ref: '#/components/schemas/MqttConfiguration'
                   - $ref: '#/components/schemas/CameraConfiguration'
                 discriminator:
                   propertyName: objectType
+              examples:
+                7372f264-2174-11ea-978f-2e728ce88125:
+                  summary: A Camera config object
+                  value:
+                    id: 7372f264-2174-11ea-978f-2e728ce88125
+                    objectType: CameraConfiguration
+                    status: deployed
+                    username: user
+                    password: password
+                    host: 192.168.0.100
+                    port: 554
+                    path: live.sdp
+                    eventTriggers: []
+                85335c0a-2174-11ea-978f-2e728ce88125:
+                  summary: A MQTT config object
+                  value:
+                    id: 85335c0a-2174-11ea-978f-2e728ce88125
+                    objectType: MqttConfiguration
+                    status: deployed
+                    username: user
+                    password: password
+                    host: 192.168.0.100
+                    port: 554
+                    path: live.sdp
+                    topic: Park
         default:
           description: unexpected error
           content:
@@ -191,7 +256,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
+              anyOf:
                 - $ref: '#/components/schemas/MqttConfiguration'
                 - $ref: '#/components/schemas/CameraConfiguration'
               discriminator:
@@ -202,11 +267,36 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
+                anyOf:
                   - $ref: '#/components/schemas/MqttConfiguration'
                   - $ref: '#/components/schemas/CameraConfiguration'
                 discriminator:
                   propertyName: objectType
+              examples:
+                7372f264-2174-11ea-978f-2e728ce88125:
+                  summary: A Camera config object
+                  value:
+                    id: 7372f264-2174-11ea-978f-2e728ce88125
+                    objectType: CameraConfiguration
+                    status: deployed
+                    username: user
+                    password: password
+                    host: 192.168.0.100
+                    port: 554
+                    path: live.sdp
+                    eventTriggers: []
+                85335c0a-2174-11ea-978f-2e728ce88125:
+                  summary: A MQTT config object
+                  value:
+                    id: 85335c0a-2174-11ea-978f-2e728ce88125
+                    objectType: MqttConfiguration
+                    status: deployed
+                    username: user
+                    password: password
+                    host: 192.168.0.100
+                    port: 554
+                    path: live.sdp
+                    topic: Park
         default:
           description: unexpected error
           content:
@@ -368,7 +458,7 @@ components:
           type: string
           description: The version running on the box
           x-faker: system.semver
-          example: 1.0
+          example: 1.0.0
         tags:
           type: array
           items:
@@ -376,18 +466,20 @@ components:
         mqttConfigurationId:
           type: string
           format: uuid
+          x-faker: random.uuid
           description: The uuid for the configuration item
+          nullable: true
         cameraConfigurationId:
           type: string
           format: uuid
           x-faker: random.uuid
-          example: b3455e0b-65d8-5be8-8da9-8993103493a8
           description: The uuid for the configuration item
+          nullable: true
         statusId:
           type: string
           format: uuid
           x-faker: random.uuid
-          example: 2ab91de8-a30a-ee5d-2ae9-a2899488c90
+          example: 6b8245ee-226b-11ea-978f-2e728ce88125
           description: The uuid for the status item
     Tag:
       type: object
@@ -400,6 +492,10 @@ components:
     ConnectionConfiguration:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+          x-faker: random.uuid
         objectType:
           type: string
         status:
@@ -441,7 +537,7 @@ components:
           type: array
           items:
             type: string
-            pattern: uuid
+            format: uuid
 
     CrossingLine:
       type: object
@@ -458,7 +554,7 @@ components:
         coordinates:
           type: object
           properties:
-            pointA: 
+            pointA:
               $ref: '#/components/schemas/Relative2dPoint'
             pointB:
               $ref: '#/components/schemas/Relative2dPoint'
@@ -488,11 +584,11 @@ components:
         coordinates:
           type: object
           properties:
-            pointA: 
+            pointA:
               $ref: '#/components/schemas/Relative2dPoint'
             pointB:
               $ref: '#/components/schemas/Relative2dPoint'
-            pointC: 
+            pointC:
               $ref: '#/components/schemas/Relative2dPoint'
             pointD:
               $ref: '#/components/schemas/Relative2dPoint'
@@ -507,10 +603,10 @@ components:
     Relative2dPoint:
       type: object
       properties:
-        x: 
+        x:
           $ref: '#/components/schemas/RelativePoint'
         y:
-          $ref: '#/components/schemas/RelativePoint'    
+          $ref: '#/components/schemas/RelativePoint'
 
   parameters:
     box-id-property:
@@ -520,7 +616,7 @@ components:
       required: true
       schema:
         type: string
-        pattern: uuid
+        format: uuid
     configuration-id-property:
       description: A guid representing the unique configuration id
       name: configurationId
@@ -528,7 +624,7 @@ components:
       required: true
       schema:
         type: string
-        pattern: uuid
+        format: uuid
     event-trigger-id-property:
       description: A guid representing the unique event trigger id
       name: eventTriggerId
@@ -536,7 +632,7 @@ components:
       required: true
       schema:
         type: string
-        pattern: uuid
+        format: uuid
 
     # pagination
     offset-property:
