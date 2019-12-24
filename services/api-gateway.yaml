@@ -163,7 +163,7 @@ paths:
   /configurations/mqtt/{configurationId}:
     get:
       summary: Retrieve an individual configuration
-      operationId: getConfigurationById
+      operationId: getMqttConfigurationById
       tags:
         - Configurations
       parameters:
@@ -195,7 +195,7 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
     put:
       summary: Update information related to a configuration
-      operationId: updateConfiguration
+      operationId: updateMqttConfiguration
       tags:
         - Configurations
       parameters:
@@ -233,7 +233,7 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
     delete:
       summary: Delete a configuration
-      operationId: deleteConfiguration
+      operationId: deleteMqttConfiguration
       tags:
         - Configurations
       parameters:
@@ -250,7 +250,7 @@ paths:
   /configurations/camera/{configurationId}:
     get:
       summary: Retrieve an individual configuration
-      operationId: getConfigurationById
+      operationId: getCameraConfigurationById
       tags:
         - Configurations
       parameters:
@@ -283,7 +283,7 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
     put:
       summary: Update information related to a configuration
-      operationId: updateConfiguration
+      operationId: updateCameraConfiguration
       tags:
         - Configurations
       parameters:
@@ -322,7 +322,7 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
     delete:
       summary: Delete a configuration
-      operationId: deleteConfiguration
+      operationId: deleteCameraConfiguration
       tags:
         - Configurations
       parameters:
