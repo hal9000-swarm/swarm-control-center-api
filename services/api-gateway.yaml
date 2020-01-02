@@ -267,7 +267,6 @@ paths:
                   summary: A Camera config object
                   value:
                     id: 7372f264-2174-11ea-978f-2e728ce88125
-                    objectType: CameraConfiguration
                     status: deployed
                     username: user
                     password: password
@@ -306,7 +305,6 @@ paths:
                   summary: A Camera config object
                   value:
                     id: 7372f264-2174-11ea-978f-2e728ce88125
-                    objectType: CameraConfiguration
                     status: deployed
                     username: user
                     password: password
