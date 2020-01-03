@@ -160,46 +160,49 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
 # APIs related to configuration objects
-  /configurations:
+  /configurations/mqtt:
     post:
-      summary: Create a configuration
-      operationId: createConfiguration
+      summary: Create MQTT configuration
+      operationId: createMqttConfiguration
       tags:
-        - Configurations
+        - MQTT Configurations
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              anyOf:
-                - $ref: '#/components/schemas/MqttConfiguration'
-                - $ref: '#/components/schemas/CameraConfiguration'
-              discriminator:
-                propertyName: objectType
+              $ref: '#/components/schemas/MqttConfiguration'
       responses:
         '200':
           description: Expected response to a valid request
           content:
             application/json:
               schema:
-                anyOf:
-                  - $ref: '#/components/schemas/MqttConfiguration'
-                  - $ref: '#/components/schemas/CameraConfiguration'
-                discriminator:
-                  propertyName: objectType
+                $ref: '#/components/schemas/MqttConfiguration'
+              examples:
+                7372f264-2174-11ea-978f-2e728ce88125:
+                  summary: A Camera config object
+                  value:
+                    id: 7372f264-2174-11ea-978f-2e728ce88125
+                    status: deployed
+                    username: user
+                    password: password
+                    host: 192.168.0.100
+                    port: 554
+                    path: live.sdp
+                    eventTriggers: []
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
-
-  /configurations/{configurationId}:
+  /configurations/mqtt/{configurationId}:
     get:
       summary: Retrieve an individual configuration
-      operationId: getConfigurationById
+      operationId: getMqttConfigurationById
       tags:
-        - Configurations
+        - MQTT Configurations
       parameters:
         - $ref: "#/components/parameters/configuration-id-property"
       responses:
@@ -208,29 +211,12 @@ paths:
           content:
             application/json:
               schema:
-                anyOf:
-                  - $ref: '#/components/schemas/MqttConfiguration'
-                  - $ref: '#/components/schemas/CameraConfiguration'
-                discriminator:
-                  propertyName: objectType
+                $ref: '#/components/schemas/MqttConfiguration'
               examples:
-                7372f264-2174-11ea-978f-2e728ce88125:
-                  summary: A Camera config object
-                  value:
-                    id: 7372f264-2174-11ea-978f-2e728ce88125
-                    objectType: CameraConfiguration
-                    status: deployed
-                    username: user
-                    password: password
-                    host: 192.168.0.100
-                    port: 554
-                    path: live.sdp
-                    eventTriggers: []
                 85335c0a-2174-11ea-978f-2e728ce88125:
                   summary: A MQTT config object
                   value:
                     id: 85335c0a-2174-11ea-978f-2e728ce88125
-                    objectType: MqttConfiguration
                     status: deployed
                     username: user
                     password: password
@@ -246,9 +232,9 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
     put:
       summary: Update information related to a configuration
-      operationId: updateConfiguration
+      operationId: updateMqttConfiguration
       tags:
-        - Configurations
+        - MQTT Configurations
       parameters:
         - $ref: "#/components/parameters/configuration-id-property"
       requestBody:
@@ -256,28 +242,19 @@ paths:
         content:
           application/json:
             schema:
-              anyOf:
-                - $ref: '#/components/schemas/MqttConfiguration'
-                - $ref: '#/components/schemas/CameraConfiguration'
-              discriminator:
-                propertyName: objectType
+              $ref: '#/components/schemas/MqttConfiguration'
       responses:
         '200':
           description: Expected response to a valid request
           content:
             application/json:
               schema:
-                anyOf:
-                  - $ref: '#/components/schemas/MqttConfiguration'
-                  - $ref: '#/components/schemas/CameraConfiguration'
-                discriminator:
-                  propertyName: objectType
+                $ref: '#/components/schemas/MqttConfiguration'
               examples:
                 7372f264-2174-11ea-978f-2e728ce88125:
                   summary: A Camera config object
                   value:
                     id: 7372f264-2174-11ea-978f-2e728ce88125
-                    objectType: CameraConfiguration
                     status: deployed
                     username: user
                     password: password
@@ -285,18 +262,6 @@ paths:
                     port: 554
                     path: live.sdp
                     eventTriggers: []
-                85335c0a-2174-11ea-978f-2e728ce88125:
-                  summary: A MQTT config object
-                  value:
-                    id: 85335c0a-2174-11ea-978f-2e728ce88125
-                    objectType: MqttConfiguration
-                    status: deployed
-                    username: user
-                    password: password
-                    host: 192.168.0.100
-                    port: 554
-                    path: live.sdp
-                    topic: Park
         default:
           description: unexpected error
           content:
@@ -305,9 +270,133 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
     delete:
       summary: Delete a configuration
-      operationId: deleteConfiguration
+      operationId: deleteMqttConfiguration
       tags:
-        - Configurations
+        - MQTT Configurations
+      parameters:
+        - $ref: "#/components/parameters/configuration-id-property"
+      responses:
+        '204':
+          description: Expected response to a valid request
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+  /configuration/camera:
+    post:
+      summary: Create camera configuration
+      operationId: createCameraConfiguration
+      tags:
+        - Camera Configurations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CameraConfiguration'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CameraConfiguration'
+              examples:
+                7372f264-2174-11ea-978f-2e728ce88125:
+                  summary: A Camera config object
+                  value:
+                    id: 7372f264-2174-11ea-978f-2e728ce88125
+                    status: deployed
+                    username: user
+                    password: password
+                    host: 192.168.0.100
+                    port: 554
+                    path: live.sdp
+                    eventTriggers: []
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+  /configurations/camera/{configurationId}:
+    get:
+      summary: Retrieve an individual configuration
+      operationId: getCameraConfigurationById
+      tags:
+        - Camera Configurations
+      parameters:
+        - $ref: "#/components/parameters/configuration-id-property"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CameraConfiguration'
+              examples:
+                7372f264-2174-11ea-978f-2e728ce88125:
+                  summary: A Camera config object
+                  value:
+                    id: 7372f264-2174-11ea-978f-2e728ce88125
+                    status: deployed
+                    username: user
+                    password: password
+                    host: 192.168.0.100
+                    port: 554
+                    path: live.sdp
+                    eventTriggers: []
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    put:
+      summary: Update information related to a configuration
+      operationId: updateCameraConfiguration
+      tags:
+        - Camera Configurations
+      parameters:
+        - $ref: "#/components/parameters/configuration-id-property"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CameraConfiguration'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CameraConfiguration'
+              examples:
+                7372f264-2174-11ea-978f-2e728ce88125:
+                  summary: A Camera config object
+                  value:
+                    id: 7372f264-2174-11ea-978f-2e728ce88125
+                    status: deployed
+                    username: user
+                    password: password
+                    host: 192.168.0.100
+                    port: 554
+                    path: live.sdp
+                    eventTriggers: []
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    delete:
+      summary: Delete a configuration
+      operationId: deleteCameraConfiguration
+      tags:
+        - Camera Configurations
       parameters:
         - $ref: "#/components/parameters/configuration-id-property"
       responses:
@@ -496,8 +585,6 @@ components:
           type: string
           format: uuid
           x-faker: random.uuid
-        objectType:
-          type: string
         status:
           type: string
           enum:
