@@ -30,7 +30,7 @@ info:
     The API can trust the signature or query AD for retrieving the assosciated roles to a user for determining if the user can invoke the operation.
 
 servers:
-  - url: http://cc.swarm.example.com/v1
+  - url: https://swarm-control-center-api-gateway.azurewebsites.net/v1
 tags:
   - name: Boxes
     description: 'Box related APIs'
