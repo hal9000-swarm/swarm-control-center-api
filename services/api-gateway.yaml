@@ -248,6 +248,7 @@ paths:
             application/json:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
+# The UUID of the configuration is equal to the UUID of the box
   /configurations/camera/{configurationId}:
     get:
       summary: Retrieve an individual configuration
