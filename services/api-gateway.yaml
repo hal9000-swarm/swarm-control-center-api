@@ -160,6 +160,7 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
 # APIs related to configuration objects
+# The UUID of the configuration is equal to the UUID of the box
   /configurations/mqtt/{configurationId}:
     get:
       summary: Retrieve an individual configuration
