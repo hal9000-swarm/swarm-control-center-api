@@ -159,6 +159,33 @@ paths:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
+  /boxes/{boxId}/getFrame:
+    get:
+      summary: Get a current frame from the box
+      operationId: getCurrentFrameForBoxById
+      tags:
+        - Boxes
+      parameters:
+        - name: boxId
+          in: path
+          required: true
+          description: The id of the box to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Image"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+
 # APIs related to configuration objects
 # The UUID of the configuration is equal to the UUID of the box
   /configurations/mqtt/{configurationId}:
@@ -622,6 +649,22 @@ components:
           $ref: '#/components/schemas/RelativePoint'
         y:
           $ref: '#/components/schemas/RelativePoint'
+
+    Image:
+      type: object
+      description: Base64 encoded image.
+      required:
+        - encodedImage
+        - mediaType
+      properties:
+        encodedImage:
+          type: string
+          format: byte
+          description: Base64 encoded image.
+        mediaType:
+          type: string
+          example: image/png
+          description: Content type.
 
   parameters:
     box-id-property:
