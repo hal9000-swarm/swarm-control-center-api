@@ -655,16 +655,19 @@ components:
       description: Base64 encoded image.
       required:
         - encodedImage
-        - mediaType
       properties:
         encodedImage:
           type: string
           format: byte
           description: Base64 encoded image.
-        mediaType:
-          type: string
-          example: image/png
-          description: Content type.
+        width:
+          type: integer
+          example: 1280
+          description: Image width.
+        heigth:
+          type: integer
+          example: 720
+          description: Image heigth.
 
   parameters:
     box-id-property:
