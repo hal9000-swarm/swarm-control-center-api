@@ -636,7 +636,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CrossingLine'
-        regionOfIntersts:
+        regionOfInterests:
           type: array
           items:
             $ref: '#/components/schemas/RegionOfInterest'            
