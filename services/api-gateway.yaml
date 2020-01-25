@@ -365,58 +365,45 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
 # APIs related to event triggers
-  /eventTriggers:
-    post:
-      summary: Create an event trigger
-      operationId: createEventTrigger
+  /boxes/{boxId}/eventTriggers:
+    get:
+      summary: List all eventTriggers for a box
+      operationId: listEventTriggers
       tags:
-        - EventTriggers
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - $ref: '#/components/schemas/CrossingLine'
-                - $ref: '#/components/schemas/RegionOfInterest'
-              discriminator:
-                propertyName: objectType
+        - Boxes
+      parameters:
+        - $ref: "#/components/parameters/box-id-property"
       responses:
+        # TODO include responses from the 2xx,3xx,4xx, and 5xx range (separate PR)
         '200':
-          description: Expected response to a valid request
+          description: All Eventtriggers
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/CrossingLine'
-                  - $ref: '#/components/schemas/RegionOfInterest'
-                discriminator:
-                  propertyName: objectType
+                $ref: "#/components/schemas/EventTriggers"
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
-  /eventTriggers/{eventTriggerId}:
+
+  /boxes/{boxId}/eventTriggers/crossingLine/{eventTriggerId}:
     get:
       summary: Retrieve an individual event trigger
-      operationId: getEventTriggerById
+      operationId: getCrossingLineEventTriggerById
       tags:
-        - EventTriggers
+        - CrossingLineEventTriggers
       parameters:
         - $ref: "#/components/parameters/event-trigger-id-property"
+        - $ref: "#/components/parameters/box-id-property"
       responses:
         '200':
           description: Expected response to a valid request
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/CrossingLine'
-                  - $ref: '#/components/schemas/RegionOfInterest'
-                discriminator:
-                  propertyName: objectType
+                $ref: '#/components/schemas/CrossingLine'
         default:
           description: unexpected error
           content:
@@ -425,32 +412,25 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
     put:
       summary: Update information related to an event trigger
-      operationId: updateEventTrigger
+      operationId: updateCrossingLineEventTrigger
       tags:
-        - EventTriggers
+        - CrossingLineEventTriggers
       parameters:
         - $ref: "#/components/parameters/event-trigger-id-property"
+        - $ref: "#/components/parameters/box-id-property"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/CrossingLine'
-                - $ref: '#/components/schemas/RegionOfInterest'
-              discriminator:
-                propertyName: objectType
+              $ref: '#/components/schemas/CrossingLine'
       responses:
         '200':
           description: Expected response to a valid request
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/CrossingLine'
-                  - $ref: '#/components/schemas/RegionOfInterest'
-                discriminator:
-                  propertyName: objectType
+                $ref: '#/components/schemas/CrossingLine'
         default:
           description: unexpected error
           content:
@@ -459,11 +439,79 @@ paths:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
     delete:
       summary: Delete an event trigger
-      operationId: deleteEventTrigger
+      operationId: deleteCrossingLineEventTrigger
       tags:
-        - EventTriggers
+        - CrossingLineEventTriggers
       parameters:
         - $ref: "#/components/parameters/event-trigger-id-property"
+        - $ref: "#/components/parameters/box-id-property"
+      responses:
+        '204':
+          description: Expected response to a valid request
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+
+  /boxes/{boxId}/eventTriggers/regionOfInterest/{eventTriggerId}:
+    get:
+      summary: Retrieve an individual event trigger
+      operationId: getRegionOfInterestEventTriggerById
+      tags:
+        - RegionOfInterestEventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+        - $ref: "#/components/parameters/box-id-property"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegionOfInterest'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    put:
+      summary: Update information related to an event trigger
+      operationId: updateRegionOfInterestEventTrigger
+      tags:
+        - RegionOfInterestEventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+        - $ref: "#/components/parameters/box-id-property"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegionOfInterest'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegionOfInterest'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    delete:
+      summary: Delete an event trigger
+      operationId: deleteRegionOfInterestEventTrigger
+      tags:
+        - RegionOfInterestEventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+        - $ref: "#/components/parameters/box-id-property"
       responses:
         '204':
           description: Expected response to a valid request
@@ -580,7 +628,19 @@ components:
           items:
             type: string
             format: uuid
-
+            
+    EventTriggers:
+      type: object
+      properties:
+        crossingLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/CrossingLine'
+        regionOfInterests:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegionOfInterest'            
+        
     CrossingLine:
       type: object
       properties:
@@ -590,9 +650,6 @@ components:
         name:
           type: string
           example: 8th SE crosswalk
-        objectType:
-          type: string
-          example: crossingLine
         coordinates:
           type: object
           properties:
@@ -610,9 +667,6 @@ components:
         name:
           type: string
           example: Bike parking spots
-        objectType:
-          type: string
-          example: regionOfInterest
         triggerAction:
           type: string
           enum:
