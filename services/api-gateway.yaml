@@ -252,7 +252,6 @@ paths:
                     host: 192.168.0.100
                     port: 554
                     path: live.sdp
-                    eventTriggers: []
         default:
           description: unexpected error
           content:
@@ -302,7 +301,6 @@ paths:
                     host: 192.168.0.100
                     port: 554
                     path: live.sdp
-                    eventTriggers: []
         default:
           description: unexpected error
           content:
@@ -340,7 +338,6 @@ paths:
                     host: 192.168.0.100
                     port: 554
                     path: live.sdp
-                    eventTriggers: []
         default:
           description: unexpected error
           content:
