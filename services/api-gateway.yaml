@@ -753,24 +753,6 @@ components:
           enum:
             - CONNECTED
             - DISCONNECTED
-        freeStorage:
-          type: string
-        temperature:
-          type: string
-        position:
-          type: string
-        cameraConnectionState:
-          type: string
-          enum:
-            - CONNECTED
-            - DISCONNECTED
-            - UNKNOWN
-        mqttConnectionState:
-          type: string
-          enum:
-            - CONNECTED
-            - DISCONNECTED
-            - UNKNOWN
 
   parameters:
     box-id-property:
