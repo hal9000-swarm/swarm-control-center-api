@@ -689,16 +689,6 @@ components:
         name:
           type: string
           example: Bike parking spots
-        triggerAction:
-          type: string
-          enum:
-            - timeBased
-            - eventBased
-          example: timeBased
-        schedule:
-          type: integer
-          description: triggered every n seconds
-          example: 30
         coordinates:
           type: object
           properties:
