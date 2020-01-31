@@ -521,6 +521,28 @@ paths:
             application/json:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
+# The UUID of the status is equal to the UUID of the box
+  /status/{statusId}:
+    get:
+      summary: Retrieve an individual status
+      operationId: getStatusForId
+      tags:
+        - Telemetry
+      parameters:
+        - $ref: "#/components/parameters/status-id-property"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoxStatus'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
 components:
   schemas:
@@ -723,6 +745,15 @@ components:
           example: 720
           description: Image heigth.
 
+    BoxStatus:
+      type: object
+      properties:
+        connectionState:
+          type: string
+          enum:
+            - CONNECTED
+            - DISCONNECTED
+
   parameters:
     box-id-property:
       description: A guid representing the unique box id
@@ -743,6 +774,14 @@ components:
     event-trigger-id-property:
       description: A guid representing the unique event trigger id
       name: eventTriggerId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    status-id-property:
+      description: A guid representing the unique status id
+      name: statusId
       in: path
       required: true
       schema:
