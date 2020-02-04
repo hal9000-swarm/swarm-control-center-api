@@ -559,8 +559,10 @@ components:
         model:
           type: string
           enum:
-            - UrbanTraffic
-            - ParkingFisheye
+            - person-detector-demo-standard-fast
+            - traffic-detector-urban-standard-fast
+            - traffic-detector-parking-standard-large
+            - traffic-detector-urban-fisheye-fast
         type:
           type: string
           description: The swarm perception box type
