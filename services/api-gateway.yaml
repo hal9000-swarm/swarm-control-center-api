@@ -1,6 +1,6 @@
 openapi: "3.0.1"
 info:
-  version: 1.0.0
+  version: 1.0.1
   title: Swarm Control Center API
   license:
     name: commercial license
@@ -385,6 +385,54 @@ paths:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
+  /boxes/{boxId}/eventTriggers/heatMap:
+    get:
+       summary: Retrieve the current heatmap setting
+       operationId: getHeatMap
+       tags:
+        - HeatmapEventTriggers
+       parameters:
+        - $ref: "#/components/parameters/box-id-property"
+       responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeatMap'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    put:
+      summary: Set the heatmap setting
+      operationId: updateHeatMap
+      tags:
+        - HeatmapEventTriggers
+      parameters:
+        - $ref: "#/components/parameters/box-id-property"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HeatMap'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeatMap'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+
   /boxes/{boxId}/eventTriggers/crossingLine/{eventTriggerId}:
     get:
       summary: Retrieve an individual event trigger
@@ -660,8 +708,16 @@ components:
         regionOfInterests:
           type: array
           items:
-            $ref: '#/components/schemas/RegionOfInterest'            
-        
+            $ref: '#/components/schemas/RegionOfInterest'   
+        heatMap:
+          $ref: '#/components/schemas/HeatMap'
+             
+    HeatMap:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    
     CrossingLine:
       type: object
       properties:
