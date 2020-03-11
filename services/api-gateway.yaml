@@ -628,6 +628,14 @@ paths:
               schema:
                 oneOf:
                   - $ref: '#/components/schemas/TrafficMonitoringSolution' #more to come
+        '404':
+           description: No enabled solution
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
     put:
       summary: Set a solution configuration
       operationId: setSolutionConfiguration
@@ -721,7 +729,6 @@ components:
         model:
           type: string
           enum:
-            - person-detector-demo-standard-fast
             - traffic-detector-urban-standard-fast
             - traffic-detector-parking-standard-large
             - traffic-detector-urban-fisheye-fast
