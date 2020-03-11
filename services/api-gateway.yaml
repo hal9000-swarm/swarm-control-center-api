@@ -589,14 +589,12 @@ paths:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
   
-  /boxes/{boxId}/solutions:
+  /solutions:
     get:
-      summary: Retrieves all the available solutions for a box
+      summary: Retrieves all the available solutions 
       operationId: getSolutions
       tags:
         - SolutionConfiguration
-      parameters:
-        - $ref: "#/components/parameters/box-id-property"
       responses:
         '200':
           description: All Solutions
