@@ -729,6 +729,7 @@ components:
         model:
           type: string
           enum:
+            - person-detector-demo-standard-fast
             - traffic-detector-urban-standard-fast
             - traffic-detector-parking-standard-large
             - traffic-detector-urban-fisheye-fast
