@@ -736,7 +736,6 @@ components:
             - head-detector-retail-standard
             - face-detector-demo-standard-fast
         solution:
-          readonly: true
           type: object 
           $ref: "#/components/schemas/Solution"
         type:
