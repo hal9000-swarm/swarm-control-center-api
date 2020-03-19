@@ -588,10 +588,10 @@ paths:
             application/json:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
-  
+
   /solutions:
     get:
-      summary: Retrieves all the available solutions 
+      summary: Retrieves all the available solutions
       operationId: getSolutions
       tags:
         - SolutionConfiguration
@@ -611,78 +611,6 @@ paths:
               schema:
                 $ref: "../schemas/commons.yaml#/components/schemas/Error"
 
-  
-  /boxes/{boxId}/solutionConfiguration:
-    get:
-      summary: Retrieves the solution configuration
-      operationId: getSolutionConfiguration
-      tags:
-        - SolutionConfiguration
-      parameters:
-        - $ref: "#/components/parameters/box-id-property"
-      responses:
-        '200':
-          description: Expected response to a valid request
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/TrafficMonitoringSolution' #more to come
-        '404':
-           description: No enabled solution
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "../schemas/commons.yaml#/components/schemas/Error"
-    put:
-      summary: Set a solution configuration
-      operationId: setSolutionConfiguration
-      tags:
-        - SolutionConfiguration
-      parameters:
-        - $ref: "#/components/parameters/box-id-property"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - $ref: '#/components/schemas/TrafficMonitoringSolution'
-      responses:
-        '200':
-          description: Expected response to a valid request
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/TrafficMonitoringSolution'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "../schemas/commons.yaml#/components/schemas/Error"
-    delete:
-      summary: Deletes a solution configuration (disables it)
-      operationId: deleteSolutionConfiguration
-      tags:
-       - SolutionConfiguration
-      parameters:
-        - $ref: "#/components/parameters/box-id-property"
-      responses:
-        '204':
-          description: Expected response to a valid request
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "../schemas/commons.yaml#/components/schemas/Error"
-      
-    
-
 components:
   schemas:
     Solution:
@@ -696,22 +624,11 @@ components:
       required:
         - solutionType
       properties:
-        solutionType: 
-          type: object 
+        solutionType:
+          type: object
           $ref: "#/components/schemas/Solution"
       discriminator:
-        propertyName: solutionType     
-
-    TrafficMonitoringSolution:
-      allOf:
-        - $ref: "#/components/schemas/SolutionConfiguration"
-      type: object
-      properties:
-        zones: #basically the UUIDS of regions of interest, could also be a URI (but that might be more inconvenient), we could also embed the complete information and just do $ref: '#/components/schemas/RegionOfInterest'
-          type: array
-          items:
-            type: string
-            format: uuid
+        propertyName: solutionType
 
     Box:
       type: object
@@ -736,7 +653,7 @@ components:
             - head-detector-retail-standard
             - face-detector-demo-standard-fast
         solution:
-          type: object 
+          type: object
           $ref: "#/components/schemas/Solution"
         type:
           type: string
@@ -824,7 +741,7 @@ components:
           items:
             type: string
             format: uuid
-            
+
     EventTriggers:
       type: object
       properties:
@@ -835,16 +752,16 @@ components:
         regionOfInterests:
           type: array
           items:
-            $ref: '#/components/schemas/RegionOfInterest'   
+            $ref: '#/components/schemas/RegionOfInterest'
         heatMap:
           $ref: '#/components/schemas/HeatMap'
-             
+
     HeatMap:
       type: object
       properties:
         enabled:
           type: boolean
-    
+
     CrossingLine:
       type: object
       properties:
