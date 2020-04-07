@@ -289,7 +289,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CameraConfiguration'
+                oneOf:
+                  - $ref: '#/components/schemas/RawCameraConfiguration'
+                  - $ref: '#/components/schemas/GranularCameraConfiguration'
+                discriminator:
+                  propertyName: configurationType
               examples:
                 7372f264-2174-11ea-978f-2e728ce88125:
                   summary: A Camera config object
@@ -319,14 +323,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CameraConfiguration'
+              oneOf:
+                - $ref: '#/components/schemas/RawCameraConfiguration'
+                - $ref: '#/components/schemas/GranularCameraConfiguration'
+              discriminator:
+                propertyName: configurationType
       responses:
         '200':
           description: Expected response to a valid request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CameraConfiguration'
+                oneOf:
+                  - $ref: '#/components/schemas/RawCameraConfiguration'
+                  - $ref: '#/components/schemas/GranularCameraConfiguration'
+                discriminator:
+                  propertyName: configurationType
               examples:
                 7372f264-2174-11ea-978f-2e728ce88125:
                   summary: A Camera config object
@@ -693,8 +705,8 @@ components:
           type: string
           x-faker: company.companyName
           example: Roxxon Energy Corporation
-
-    ConnectionConfiguration:
+    
+    MqttConfiguration:
       type: object
       properties:
         id:
@@ -722,25 +734,65 @@ components:
         path:
           type: string
           example: live.sdp
-
-    MqttConfiguration:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/ConnectionConfiguration'
-      properties:
         topic:
           type: string
 
     CameraConfiguration:
       type: object
-      allOf:
-        - $ref: '#/components/schemas/ConnectionConfiguration'
+      required:
+        - configurationType
       properties:
+        id:
+          type: string
+          format: uuid
+          x-faker: random.uuid
+        status:
+          type: string
+          enum:
+            - desired
+            - deployed
+          example: deployed
+        configurationType:
+          type: string
         eventTriggers:
           type: array
           items:
             type: string
             format: uuid
+      discriminator:
+        propertyName: configurationType
+      
+    GranularCameraConfiguration:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CameraConfiguration'
+      properties:
+        username:
+          type: string
+          example: user
+        password:
+          type: string
+          example: password
+        host:
+          type: string
+          example: 192.168.0.100
+        port:
+          type: integer
+          example: 554
+        path:
+          type: string
+          example: live.sdp
+    
+
+    RawCameraConfiguration:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CameraConfiguration'
+      properties:
+        rawConnectionURI:
+          type: string
+          example: rtmp://192.168.1.15/stream
+
 
     EventTriggers:
       type: object
