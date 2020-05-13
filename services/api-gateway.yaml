@@ -663,6 +663,7 @@ components:
             - traffic-detector-parking-standard-large
             - traffic-detector-urban-fisheye-fast
             - head-detector-retail-standard
+            - head-detector-capacity-standard
             - face-detector-demo-standard-fast
         solution:
           type: object
