@@ -709,7 +709,11 @@ components:
     
     MqttConfiguration:
       type: object
+      required:
+        - configurationType
       properties:
+        configurationType:
+          type: string
         id:
           type: string
           format: uuid
