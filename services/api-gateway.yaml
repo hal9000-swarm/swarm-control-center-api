@@ -629,7 +629,7 @@ components:
       type: string
       enum:
         - TrafficMonitoring
-        # More to come
+        - PeopleInsights
 
     SolutionConfiguration:
       type: object
