@@ -383,7 +383,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/box-id-property"
       responses:
-        # TODO include responses from the 2xx,3xx,4xx, and 5xx range (separate PR)
         '200':
           description: All Eventtriggers
           content:
@@ -566,6 +565,73 @@ paths:
       operationId: deleteRegionOfInterestEventTrigger
       tags:
         - RegionOfInterestEventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+        - $ref: "#/components/parameters/box-id-property"
+      responses:
+        '204':
+          description: Expected response to a valid request
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+
+  /boxes/{boxId}/eventTriggers/virtualDoor/{eventTriggerId}:
+    get:
+      summary: Retrieve an individual event trigger
+      operationId: getVirtualDoorEventTriggerById
+      tags:
+        - VirtualDoorsEventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+        - $ref: "#/components/parameters/box-id-property"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VirtualDoor'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    put:
+      summary: Update information related to an event trigger
+      operationId: updateVirtualDoorEventTrigger
+      tags:
+        - VirtualDoorsEventTriggers
+      parameters:
+        - $ref: "#/components/parameters/event-trigger-id-property"
+        - $ref: "#/components/parameters/box-id-property"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VirtualDoor'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VirtualDoor'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/commons.yaml#/components/schemas/Error"
+    delete:
+      summary: Delete an event trigger
+      operationId: deleteVirtualDoorEventTrigger
+      tags:
+        - VirtualDoorsEventTriggers
       parameters:
         - $ref: "#/components/parameters/event-trigger-id-property"
         - $ref: "#/components/parameters/box-id-property"
@@ -812,12 +878,36 @@ components:
             $ref: '#/components/schemas/RegionOfInterest'
         heatMap:
           $ref: '#/components/schemas/HeatMap'
+        virtualDoor:
+          $ref: '#/components/schemas/VirtualDoor'
 
     HeatMap:
       type: object
       properties:
         enabled:
           type: boolean
+
+    VirtualDoor:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Main entrance
+        coordinates:
+          type: object
+          properties:
+            pointA:
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointB:
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointC:
+              $ref: '#/components/schemas/Relative2dPoint'
+            pointD:
+              $ref: '#/components/schemas/Relative2dPoint'
+
 
     CrossingLine:
       type: object
