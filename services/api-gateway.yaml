@@ -118,10 +118,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/limit-property"
         - $ref: "#/components/parameters/offset-property"
-        # TODO sort key and sort direction
-        # TODO filtering
       responses:
-        # TODO include responses from the 2xx,3xx,4xx, and 5xx range (separate PR)
         '200':
           description: An array of boxes
           headers:
@@ -893,6 +890,11 @@ components:
         id:
           type: string
           format: uuid
+        distance:
+           type: string
+           enum:
+            - near
+            - far
         name:
           type: string
           example: Main entrance
