@@ -944,6 +944,11 @@ components:
         name:
           type: string
           example: Bike parking spots
+        trigger:
+          type: string
+          enum:
+            - change
+            - time
         coordinates:
           type: object
           properties:
